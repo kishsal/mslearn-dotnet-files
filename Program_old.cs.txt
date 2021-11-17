@@ -1,0 +1,65 @@
+﻿using System;
+using System.IO;
+using System.Collections.Generic;
+
+// var currentDirectory = Directory.GetCurrentDirectory();
+// var salesFiles = FindFiles("stores");
+
+// foreach (var file in salesFiles)
+// {
+//     Console.WriteLine(file);
+// }
+
+// Output:
+// stores/sales.json
+// stores/204/sales.json
+// stores/203/sales.json
+// stores/202/sales.json
+// stores/201/sales.json
+
+var currentDirectory = Directory.GetCurrentDirectory();
+var storesDirectory = Path.Combine(currentDirectory, "stores");
+
+var salesFiles = FindFiles(storesDirectory);
+foreach (var file in salesFiles)
+{
+    Console.WriteLine(file);
+}
+
+// Output:
+// /Users/ksalgado/Documents/Scripts/Personal/mslearn-dotnet-files/stores/sales.json
+// /Users/ksalgado/Documents/Scripts/Personal/mslearn-dotnet-files/stores/204/sales.json
+// /Users/ksalgado/Documents/Scripts/Personal/mslearn-dotnet-files/stores/203/sales.json
+// /Users/ksalgado/Documents/Scripts/Personal/mslearn-dotnet-files/stores/202/sales.json
+// /Users/ksalgado/Documents/Scripts/Personal/mslearn-dotnet-files/stores/201/sales.json
+
+
+
+IEnumerable<string> FindFiles(string folderName)
+{
+    List<string> salesFiles = new List<string>();
+
+    var foundFiles = Directory.EnumerateFiles(folderName, "*", SearchOption.AllDirectories);
+
+    foreach (var file in foundFiles)
+{
+    var extension = Path.GetExtension(file);
+    if (extension == ".json")
+    {
+        salesFiles.Add(file);
+    }
+}
+
+    return salesFiles;
+}
+
+// Output:
+// /home/username/dotnet-files/stores/sales.json  
+// /home/username/dotnet-files/stores/201/sales.json
+// /home/username/dotnet-files/stores/201/salestotals.json  
+// /home/username/dotnet-files/stores/202/sales.json
+// /home/username/dotnet-files/stores/202/salestotals.json    
+// /home/username/dotnet-files/stores/203/sales.json  
+// /home/username/dotnet-files/stores/203/salestotals.json  
+// /home/username/dotnet-files/stores/204/sales.json  
+// /home/username/dotnet-files/stores/204/salestotals.json  
